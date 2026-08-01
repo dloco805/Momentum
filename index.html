@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Momentum - Alternative Education Student Growth Platform">
-    <title>Momentum</title>
+    <meta name="theme-color" content="#121212">
+
+    <title>Momentum v0.1.0</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -12,61 +14,141 @@
 
     <div id="app">
 
-        <aside id="sidebar">
-            <div id="sidebar-header">
-                <h1>Momentum</h1>
-            </div>
+        <aside id="sidebar" aria-label="Primary Navigation">
 
-            <nav id="navigation" aria-label="Main Navigation">
-                <ul>
-                    <li><button id="nav-dashboard" class="nav-button" type="button">Dashboard</button></li>
-                    <li><button id="nav-students" class="nav-button" type="button">Students</button></li>
-                    <li><button id="nav-learning-journey" class="nav-button" type="button">Learning Journey</button></li>
-                    <li><button id="nav-follow-ups" class="nav-button" type="button">Follow-Ups</button></li>
-                    <li><button id="nav-reports" class="nav-button" type="button">Reports</button></li>
-                    <li><button id="nav-settings" class="nav-button" type="button">Settings</button></li>
-                </ul>
-            </nav>
-        </aside>
-
-        <main id="main-content">
-
-            <header id="header">
-                <h2>Momentum</h2>
+            <header class="sidebar-header">
+                <h1 id="logo">Momentum</h1>
+                <p class="version">Build v0.1.0</p>
             </header>
 
-            <section id="page-container">
+            <nav>
+                <ul class="nav-list">
+                    <li>
+                        <button
+                            type="button"
+                            class="nav-link active"
+                            data-page="dashboard">
+                            Dashboard
+                        </button>
+                    </li>
 
-                <section id="dashboard-page" class="page">
-                    <div id="dashboard-content"></div>
+                    <li>
+                        <button
+                            type="button"
+                            class="nav-link"
+                            data-page="students">
+                            Students
+                        </button>
+                    </li>
+
+                    <li>
+                        <button
+                            type="button"
+                            class="nav-link"
+                            data-page="learning-journey">
+                            Learning Journey
+                        </button>
+                    </li>
+
+                    <li>
+                        <button
+                            type="button"
+                            class="nav-link"
+                            data-page="follow-ups">
+                            Follow-Ups
+                        </button>
+                    </li>
+
+                    <li>
+                        <button
+                            type="button"
+                            class="nav-link"
+                            data-page="reports">
+                            Reports
+                        </button>
+                    </li>
+
+                    <li>
+                        <button
+                            type="button"
+                            class="nav-link"
+                            data-page="settings">
+                            Settings
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+
+        </aside>
+
+        <div id="content">
+
+            <header id="top-header">
+                <h2 id="page-title">Dashboard</h2>
+            </header>
+
+            <main id="main-content">
+
+                <section
+                    id="dashboard"
+                    class="page active"
+                    aria-labelledby="dashboard-heading">
+                    <h2 id="dashboard-heading">Dashboard</h2>
+                    <div id="dashboard-container"></div>
                 </section>
 
-                <section id="students-page" class="page" hidden>
-                    <div id="students-content"></div>
+                <section
+                    id="students"
+                    class="page"
+                    aria-labelledby="students-heading"
+                    hidden>
+                    <h2 id="students-heading">Students</h2>
+                    <div id="students-container"></div>
                 </section>
 
-                <section id="learning-journey-page" class="page" hidden>
-                    <div id="learning-journey-content"></div>
+                <section
+                    id="learning-journey"
+                    class="page"
+                    aria-labelledby="learning-journey-heading"
+                    hidden>
+                    <h2 id="learning-journey-heading">Learning Journey</h2>
+                    <div id="learning-journey-container"></div>
                 </section>
 
-                <section id="follow-ups-page" class="page" hidden>
-                    <div id="follow-ups-content"></div>
+                <section
+                    id="follow-ups"
+                    class="page"
+                    aria-labelledby="follow-ups-heading"
+                    hidden>
+                    <h2 id="follow-ups-heading">Follow-Ups</h2>
+                    <div id="follow-ups-container"></div>
                 </section>
 
-                <section id="reports-page" class="page" hidden>
-                    <div id="reports-content"></div>
+                <section
+                    id="reports"
+                    class="page"
+                    aria-labelledby="reports-heading"
+                    hidden>
+                    <h2 id="reports-heading">Reports</h2>
+                    <div id="reports-container"></div>
                 </section>
 
-                <section id="settings-page" class="page" hidden>
-                    <div id="settings-content"></div>
+                <section
+                    id="settings"
+                    class="page"
+                    aria-labelledby="settings-heading"
+                    hidden>
+                    <h2 id="settings-heading">Settings</h2>
+                    <div id="settings-container"></div>
                 </section>
 
-            </section>
+            </main>
 
-        </main>
+        </div>
 
     </div>
 
     <script src="app.js"></script>
+
 </body>
 </html>
