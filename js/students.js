@@ -1,9 +1,9 @@
-
 /*
 ==========================================================
 Momentum
 Student Manager Module
 Build v0.2.0
+File: js/students.js
 ==========================================================
 */
 
@@ -22,17 +22,18 @@ const StudentManager = (() => {
             "STU-" +
             Date.now().toString(36).toUpperCase() +
             "-" +
-            Math.random().toString(36).substring(2, 7).toUpperCase()
+            Math.random().toString(36).substring(2, 8).toUpperCase()
         );
     }
 
-    function now() {
+    function timestamp() {
         return new Date().toISOString();
     }
 
     function clean(value) {
-        if (typeof value !== "string") return "";
-        return value.trim();
+        return typeof value === "string"
+            ? value.trim()
+            : "";
     }
 
     function normalizeArray(value) {
@@ -51,32 +52,37 @@ const StudentManager = (() => {
         }
 
         return [];
+
+    }
+
+    function clone(value) {
+        return structuredClone(value);
     }
 
     /* ======================================================
        Validation
     ====================================================== */
 
-    function validate(student) {
+    function validate(data) {
 
         const errors = [];
 
-        if (!clean(student.preferredName))
+        if (!clean(data.profile.preferredName))
             errors.push("Preferred Name is required.");
 
-        if (!clean(student.firstName))
+        if (!clean(data.profile.firstName))
             errors.push("First Name is required.");
 
-        if (!clean(student.lastName))
+        if (!clean(data.profile.lastName))
             errors.push("Last Name is required.");
 
-        if (!clean(student.grade))
+        if (!clean(data.profile.grade))
             errors.push("Grade is required.");
 
-        if (!clean(student.advisor))
+        if (!clean(data.profile.advisor))
             errors.push("Advisor is required.");
 
-        if (!clean(student.mood))
+        if (!clean(data.profile.mood))
             errors.push("Mood is required.");
 
         return {
@@ -96,55 +102,49 @@ const StudentManager = (() => {
 
             id: generateId(),
 
-            preferredName: clean(data.preferredName),
+            profile: {
+                preferredName: clean(data.profile?.preferredName),
+                firstName: clean(data.profile?.firstName),
+                lastName: clean(data.profile?.lastName),
+                grade: clean(data.profile?.grade),
+                advisor: clean(data.profile?.advisor),
+                mood: clean(data.profile?.mood)
+            },
 
-            firstName: clean(data.firstName),
+            journey: {
+                careerInterests: normalizeArray(data.journey?.careerInterests),
+                currentProjects: normalizeArray(data.journey?.currentProjects),
+                drivingQuestions: normalizeArray(data.journey?.drivingQuestions),
+                milestones: normalizeArray(data.journey?.milestones),
+                reflections: normalizeArray(data.journey?.reflections),
+                newQuestions: normalizeArray(data.journey?.newQuestions)
+            },
 
-            lastName: clean(data.lastName),
+            support: {
+                internships: normalizeArray(data.support?.internships),
+                communityPartners: normalizeArray(data.support?.communityPartners),
+                followUps: normalizeArray(data.support?.followUps),
+                teacherNotes: normalizeArray(data.support?.teacherNotes)
+            },
 
-            grade: clean(data.grade),
-
-            advisor: clean(data.advisor),
-
-            mood: clean(data.mood),
-
-            careerInterests: normalizeArray(data.careerInterests),
-
-            projects: [],
-
-            drivingQuestions: [],
-
-            milestones: [],
-
-            communityPartners: [],
-
-            internships: [],
-
-            reflections: [],
-
-            newQuestions: [],
-
-            strengths: [],
-
-            teacherNotes: [],
-
-            followUps: [],
-
-            createdDate: now(),
-
-            lastUpdated: now()
+            metadata: {
+                created: timestamp(),
+                updated: timestamp()
+            }
 
         };
 
-        const result = validate(student);
+        const validation = validate(student);
 
-        if (!result.valid) {
-            throw new Error(result.errors.join("\n"));
+        if (!validation.valid) {
+            throw new Error(validation.errors.join("\n"));
         }
 
         students.push(student);
 
-        return structuredClone(student);
+        notifyChange();
+
+        return clone(student);
 
     }
 
@@ -156,66 +156,67 @@ const StudentManager = (() => {
         return createStudent(data);
     }
 
-    function getStudents() {
-        return students.map(student => structuredClone(student));
-    }
+    function editStudent(id, updates = {}) {
 
-    function getStudentById(id) {
-
-        return students.find(student => student.id === id) || null;
-
-    }
-
-    function updateStudent(id, updates = {}) {
-
-        const student = students.find(student => student.id === id);
+        const student = students.find(s => s.id === id);
 
         if (!student) {
             throw new Error("Student not found.");
         }
 
-        const editableFields = [
+        if (updates.profile) {
 
-            "preferredName",
-            "firstName",
-            "lastName",
-            "grade",
-            "advisor",
-            "mood"
+            Object.keys(student.profile).forEach(key => {
 
-        ];
+                if (key in updates.profile) {
+                    student.profile[key] = clean(updates.profile[key]);
+                }
 
-        editableFields.forEach(field => {
+            });
 
-            if (field in updates) {
-                student[field] = clean(updates[field]);
-            }
-
-        });
-
-        if ("careerInterests" in updates) {
-            student.careerInterests = normalizeArray(
-                updates.careerInterests
-            );
         }
 
-        student.lastUpdated = now();
+        if (updates.journey) {
 
-        const result = validate(student);
+            Object.keys(student.journey).forEach(key => {
 
-        if (!result.valid) {
-            throw new Error(result.errors.join("\n"));
+                if (key in updates.journey) {
+                    student.journey[key] = normalizeArray(updates.journey[key]);
+                }
+
+            });
+
         }
 
-        return structuredClone(student);
+        if (updates.support) {
+
+            Object.keys(student.support).forEach(key => {
+
+                if (key in updates.support) {
+                    student.support[key] = normalizeArray(updates.support[key]);
+                }
+
+            });
+
+        }
+
+        student.metadata.updated = timestamp();
+
+        const validation = validate(student);
+
+        if (!validation.valid) {
+            throw new Error(validation.errors.join("\n"));
+        }
+
+        notifyChange();
+
+        return clone(student);
 
     }
 
     function deleteStudent(id) {
 
-        const index = students.findIndex(
-            student => student.id === id
-        );
+        const index = students.findIndex(s => s.id === id);
 
         if (index === -1) {
             return false;
@@ -223,7 +224,25 @@ const StudentManager = (() => {
 
         students.splice(index, 1);
 
+        notifyChange();
+
         return true;
+
+    }
+
+    /* ======================================================
+       Retrieval
+    ====================================================== */
+
+    function getStudents() {
+        return clone(students);
+    }
+
+    function getStudent(id) {
+
+        const student = students.find(s => s.id === id);
+
+        return student ? clone(student) : null;
 
     }
 
@@ -231,9 +250,9 @@ const StudentManager = (() => {
        Search
     ====================================================== */
 
-    function searchStudents(searchTerm = "") {
+    function searchStudents(search = "") {
 
-        const term = searchTerm.toLowerCase().trim();
+        const term = search.toLowerCase().trim();
 
         if (!term) {
             return getStudents();
@@ -245,59 +264,79 @@ const StudentManager = (() => {
 
                 student.id.toLowerCase().includes(term) ||
 
-                student.preferredName.toLowerCase().includes(term) ||
+                student.profile.preferredName.toLowerCase().includes(term) ||
 
-                student.firstName.toLowerCase().includes(term) ||
+                student.profile.firstName.toLowerCase().includes(term) ||
 
-                student.lastName.toLowerCase().includes(term) ||
+                student.profile.lastName.toLowerCase().includes(term) ||
 
-                student.grade.toLowerCase().includes(term) ||
+                student.profile.grade.toLowerCase().includes(term) ||
 
-                student.advisor.toLowerCase().includes(term) ||
+                student.profile.advisor.toLowerCase().includes(term) ||
 
-                student.mood.toLowerCase().includes(term) ||
+                student.profile.mood.toLowerCase().includes(term) ||
 
-                student.careerInterests.some(interest =>
-                    interest.toLowerCase().includes(term)
+                student.journey.careerInterests.some(item =>
+                    item.toLowerCase().includes(term)
+                ) ||
+
+                student.journey.currentProjects.some(item =>
+                    item.toLowerCase().includes(term)
+                ) ||
+
+                student.journey.drivingQuestions.some(item =>
+                    item.toLowerCase().includes(term)
+                ) ||
+
+                student.support.communityPartners.some(item =>
+                    item.toLowerCase().includes(term)
+                ) ||
+
+                student.support.internships.some(item =>
+                    item.toLowerCase().includes(term)
                 )
 
             );
 
-        }).map(student => structuredClone(student));
+        }).map(clone);
 
     }
 
     /* ======================================================
-       Helpers
+       Collection Management
     ====================================================== */
+
+    function replaceAll(data = []) {
+
+        students = clone(data);
+
+        notifyChange();
+
+    }
+
+    function clearAll() {
+
+        students = [];
+
+        notifyChange();
+
+    }
 
     function count() {
         return students.length;
     }
 
-    function clearAll() {
-        students = [];
-    }
+    /* ======================================================
+       Events
+    ====================================================== */
 
-    function replaceAll(studentArray = []) {
+    function notifyChange() {
 
-        students = studentArray.map(student => ({
-
-            ...student,
-
-            careerInterests: normalizeArray(student.careerInterests),
-            projects: student.projects || [],
-            drivingQuestions: student.drivingQuestions || [],
-            milestones: student.milestones || [],
-            communityPartners: student.communityPartners || [],
-            internships: student.internships || [],
-            reflections: student.reflections || [],
-            newQuestions: student.newQuestions || [],
-            strengths: student.strengths || [],
-            teacherNotes: student.teacherNotes || [],
-            followUps: student.followUps || []
-
-        }));
+        window.dispatchEvent(
+            new CustomEvent("studentDataChanged", {
+                detail: getStudents()
+            })
+        );
 
     }
 
@@ -308,22 +347,16 @@ const StudentManager = (() => {
     return {
 
         addStudent,
-
-        updateStudent,
-
+        editStudent,
         deleteStudent,
 
+        getStudent,
         getStudents,
-
-        getStudentById,
-
         searchStudents,
 
-        count,
-
-        clearAll,
-
         replaceAll,
+        clearAll,
+        count,
 
         validate
 
