@@ -1,21 +1,429 @@
-Generate the COMPLETE contents of style.css only.
+/* ==========================================================
+   Momentum
+   Build v0.1.0
+   ========================================================== */
 
-Momentum Build v0.1.0
+:root {
+    --bg: #0f172a;
+    --bg-secondary: #162033;
+    --surface: #1e293b;
+    --surface-light: #273449;
+    --sidebar: #111827;
+    --border: #2d3d55;
 
-Create a modern dark UI.
+    --primary: #3b82f6;
+    --primary-hover: #60a5fa;
+    --accent: #38bdf8;
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --danger: #ef4444;
 
-Requirements:
-- Professional dashboard
-- Dark blue/gray color palette
-- Left sidebar (250px)
-- Responsive layout
-- Cards
-- Buttons
-- Forms
-- Tables
-- Student cards
-- Dashboard statistic cards
-- Smooth hover animations
-- Modern typography
-- No CSS frameworks
-- Return ONLY style.css
+    --text: #f8fafc;
+    --text-secondary: #94a3b8;
+
+    --radius: 12px;
+    --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+    --transition: .25s ease;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.5;
+}
+
+/* ==========================================================
+   Layout
+   ========================================================== */
+
+#app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+
+#sidebar {
+    width: 250px;
+    background: var(--sidebar);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.sidebar-header {
+    padding: 28px 24px;
+    border-bottom: 1px solid var(--border);
+}
+
+#logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.version {
+    margin-top: 6px;
+    color: var(--text-secondary);
+    font-size: .85rem;
+}
+
+/* Navigation */
+
+.nav-list {
+    list-style: none;
+    padding: 20px 12px;
+}
+
+.nav-list li {
+    margin-bottom: 8px;
+}
+
+.nav-link {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-secondary);
+    text-align: left;
+    font-size: .95rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.nav-link:hover {
+    background: rgba(59,130,246,.12);
+    color: var(--text);
+    transform: translateX(4px);
+}
+
+.nav-link.active {
+    background: var(--primary);
+    color: white;
+}
+
+/* Content */
+
+#content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+#top-header {
+    height: 72px;
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+}
+
+#page-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+#main-content {
+    flex: 1;
+    padding: 32px;
+    overflow: auto;
+}
+
+/* ==========================================================
+   Pages
+   ========================================================== */
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.page h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+/* ==========================================================
+   Cards
+   ========================================================== */
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary);
+}
+
+/* Dashboard Stats */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    transition: var(--transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.stat-label {
+    color: var(--text-secondary);
+}
+
+/* ==========================================================
+   Student Cards
+   ========================================================== */
+
+.student-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    gap: 20px;
+}
+
+.student-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: var(--transition);
+}
+
+.student-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+}
+
+.student-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.student-meta {
+    margin-top: 10px;
+    color: var(--text-secondary);
+    font-size: .9rem;
+}
+
+/* ==========================================================
+   Buttons
+   ========================================================== */
+
+button,
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 12px 18px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: var(--primary);
+    color: white;
+
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: .95rem;
+}
+
+button:hover,
+.btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+button:disabled,
+.btn:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+/* ==========================================================
+   Forms
+   ========================================================== */
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 12px 14px;
+
+    background: var(--bg-secondary);
+    color: var(--text);
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    font: inherit;
+    transition: var(--transition);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* ==========================================================
+   Tables
+   ========================================================== */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+thead {
+    background: var(--bg-secondary);
+}
+
+th,
+td {
+    padding: 14px 16px;
+    text-align: left;
+}
+
+th {
+    font-weight: 600;
+}
+
+tbody tr {
+    border-top: 1px solid var(--border);
+    transition: var(--transition);
+}
+
+tbody tr:hover {
+    background: rgba(59,130,246,.08);
+}
+
+/* ==========================================================
+   Utility
+   ========================================================== */
+
+.hidden {
+    display: none !important;
+}
+
+.text-muted {
+    color: var(--text-secondary);
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* ==========================================================
+   Responsive
+   ========================================================== */
+
+@media (max-width: 900px) {
+
+    #app {
+        flex-direction: column;
+    }
+
+    #sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .nav-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 12px;
+    }
+
+    .nav-list li {
+        margin: 0;
+    }
+
+    .nav-link {
+        width: auto;
+    }
+
+    #top-header {
+        padding: 0 20px;
+    }
+
+    #main-content {
+        padding: 20px;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .stats-grid,
+    .student-grid {
+        grid-template-columns: 1fr;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+
+}
