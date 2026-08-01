@@ -1,367 +1,490 @@
 /*
 ==========================================================
 Momentum
-Student Manager Module
-Build v0.2.0
-File: js/students.js
+Student UI Module
+Build v0.3.0
+File: js/studentUI.js
+
+Responsibilities
+----------------------------------------------------------
+- Student browser UI
+- Live search
+- Student count
+- Student cards
+- Empty state
+- UI events
+
+Dependencies
+----------------------------------------------------------
+StudentManager
+Dashboard (optional refresh)
+Storage (handled elsewhere)
+
+This module intentionally does NOT manage student data.
 ==========================================================
 */
 
-"use strict";
+const StudentUI = (() => {
 
-const StudentManager = (() => {
+    "use strict";
 
-    let students = [];
+    //======================================================
+    // Private State
+    //======================================================
 
-    /* ======================================================
-       Utilities
-    ====================================================== */
+    let root = null;
+    let searchInput = null;
+    let countLabel = null;
+    let cardContainer = null;
+    let addButton = null;
 
-    function generateId() {
-        return (
-            "STU-" +
-            Date.now().toString(36).toUpperCase() +
-            "-" +
-            Math.random().toString(36).substring(2, 8).toUpperCase()
-        );
-    }
+    let currentSearch = "";
 
-    function timestamp() {
-        return new Date().toISOString();
-    }
+    //======================================================
+    // Initialization
+    //======================================================
 
-    function clean(value) {
-        return typeof value === "string"
-            ? value.trim()
-            : "";
-    }
+    function initialize(containerId = "studentBrowser") {
 
-    function normalizeArray(value) {
+        root = document.getElementById(containerId);
 
-        if (Array.isArray(value)) {
-            return value
-                .map(item => String(item).trim())
-                .filter(Boolean);
+        if (!root) {
+            console.warn("StudentUI: Container not found:", containerId);
+            return;
         }
 
-        if (typeof value === "string") {
-            return value
-                .split(",")
-                .map(item => item.trim())
-                .filter(Boolean);
-        }
+        buildLayout();
 
-        return [];
+        bindEvents();
 
+        refresh();
     }
 
-    function clone(value) {
-        return structuredClone(value);
+    //======================================================
+    // Layout
+    //======================================================
+
+    function buildLayout() {
+
+        root.innerHTML = "";
+
+        //--------------------------------------------------
+        // Wrapper
+        //--------------------------------------------------
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "student-ui";
+
+        //--------------------------------------------------
+        // Header
+        //--------------------------------------------------
+
+        const title = document.createElement("h2");
+        title.textContent = "Students";
+
+        countLabel = document.createElement("div");
+        countLabel.className = "student-count";
+
+        wrapper.appendChild(title);
+        wrapper.appendChild(countLabel);
+
+        //--------------------------------------------------
+        // Toolbar
+        //--------------------------------------------------
+
+        const toolbar = document.createElement("div");
+        toolbar.className = "student-toolbar";
+
+        searchInput = document.createElement("input");
+        searchInput.type = "search";
+        searchInput.placeholder = "🔍 Search Students...";
+        searchInput.autocomplete = "off";
+
+        addButton = document.createElement("button");
+        addButton.type = "button";
+        addButton.textContent = "+ New Student";
+
+        toolbar.appendChild(searchInput);
+        toolbar.appendChild(addButton);
+
+        wrapper.appendChild(toolbar);
+
+        //--------------------------------------------------
+        // Cards
+        //--------------------------------------------------
+
+        cardContainer = document.createElement("div");
+        cardContainer.className = "student-card-container";
+
+        wrapper.appendChild(cardContainer);
+
+        root.appendChild(wrapper);
     }
 
-    /* ======================================================
-       Validation
-    ====================================================== */
+    //======================================================
+    // Events
+    //======================================================
 
-    function validate(data) {
+    function bindEvents() {
 
-        const errors = [];
+        //--------------------------------------------------
+        // Live Search
+        //--------------------------------------------------
 
-        if (!clean(data.profile.preferredName))
-            errors.push("Preferred Name is required.");
+        searchInput.addEventListener("input", () => {
 
-        if (!clean(data.profile.firstName))
-            errors.push("First Name is required.");
+            currentSearch = searchInput.value.trim();
 
-        if (!clean(data.profile.lastName))
-            errors.push("Last Name is required.");
+            render();
 
-        if (!clean(data.profile.grade))
-            errors.push("Grade is required.");
+        });
 
-        if (!clean(data.profile.advisor))
-            errors.push("Advisor is required.");
+        //--------------------------------------------------
+        // New Student
+        //--------------------------------------------------
 
-        if (!clean(data.profile.mood))
-            errors.push("Mood is required.");
+        addButton.addEventListener("click", () => {
 
-        return {
-            valid: errors.length === 0,
-            errors
-        };
-
-    }
-
-    /* ======================================================
-       Student Factory
-    ====================================================== */
-
-    function createStudent(data = {}) {
-
-        const student = {
-
-            id: generateId(),
-
-            profile: {
-                preferredName: clean(data.profile?.preferredName),
-                firstName: clean(data.profile?.firstName),
-                lastName: clean(data.profile?.lastName),
-                grade: clean(data.profile?.grade),
-                advisor: clean(data.profile?.advisor),
-                mood: clean(data.profile?.mood)
-            },
-
-            journey: {
-                careerInterests: normalizeArray(data.journey?.careerInterests),
-                currentProjects: normalizeArray(data.journey?.currentProjects),
-                drivingQuestions: normalizeArray(data.journey?.drivingQuestions),
-                milestones: normalizeArray(data.journey?.milestones),
-                reflections: normalizeArray(data.journey?.reflections),
-                newQuestions: normalizeArray(data.journey?.newQuestions)
-            },
-
-            support: {
-                internships: normalizeArray(data.support?.internships),
-                communityPartners: normalizeArray(data.support?.communityPartners),
-                followUps: normalizeArray(data.support?.followUps),
-                teacherNotes: normalizeArray(data.support?.teacherNotes)
-            },
-
-            metadata: {
-                created: timestamp(),
-                updated: timestamp()
-            }
-
-        };
-
-        const validation = validate(student);
-
-        if (!validation.valid) {
-            throw new Error(validation.errors.join("\n"));
-        }
-
-        students.push(student);
-
-        notifyChange();
-
-        return clone(student);
-
-    }
-
-    /* ======================================================
-       CRUD
-    ====================================================== */
-
-    function addStudent(data) {
-        return createStudent(data);
-    }
-
-    function editStudent(id, updates = {}) {
-
-        const student = students.find(s => s.id === id);
-
-        if (!student) {
-            throw new Error("Student not found.");
-        }
-
-        if (updates.profile) {
-
-            Object.keys(student.profile).forEach(key => {
-
-                if (key in updates.profile) {
-                    student.profile[key] = clean(updates.profile[key]);
-                }
-
-            });
-
-        }
-
-        if (updates.journey) {
-
-            Object.keys(student.journey).forEach(key => {
-
-                if (key in updates.journey) {
-                    student.journey[key] = normalizeArray(updates.journey[key]);
-                }
-
-            });
-
-        }
-
-        if (updates.support) {
-
-            Object.keys(student.support).forEach(key => {
-
-                if (key in updates.support) {
-                    student.support[key] = normalizeArray(updates.support[key]);
-                }
-
-            });
-
-        }
-
-        student.metadata.updated = timestamp();
-
-        const validation = validate(student);
-
-        if (!validation.valid) {
-            throw new Error(validation.errors.join("\n"));
-        }
-
-        notifyChange();
-
-        return clone(student);
-
-    }
-
-    function deleteStudent(id) {
-
-        const index = students.findIndex(s => s.id === id);
-
-        if (index === -1) {
-            return false;
-        }
-
-        students.splice(index, 1);
-
-        notifyChange();
-
-        return true;
-
-    }
-
-    /* ======================================================
-       Retrieval
-    ====================================================== */
-
-    function getStudents() {
-        return clone(students);
-    }
-
-    function getStudent(id) {
-
-        const student = students.find(s => s.id === id);
-
-        return student ? clone(student) : null;
-
-    }
-
-    /* ======================================================
-       Search
-    ====================================================== */
-
-    function searchStudents(search = "") {
-
-        const term = search.toLowerCase().trim();
-
-        if (!term) {
-            return getStudents();
-        }
-
-        return students.filter(student => {
-
-            return (
-
-                student.id.toLowerCase().includes(term) ||
-
-                student.profile.preferredName.toLowerCase().includes(term) ||
-
-                student.profile.firstName.toLowerCase().includes(term) ||
-
-                student.profile.lastName.toLowerCase().includes(term) ||
-
-                student.profile.grade.toLowerCase().includes(term) ||
-
-                student.profile.advisor.toLowerCase().includes(term) ||
-
-                student.profile.mood.toLowerCase().includes(term) ||
-
-                student.journey.careerInterests.some(item =>
-                    item.toLowerCase().includes(term)
-                ) ||
-
-                student.journey.currentProjects.some(item =>
-                    item.toLowerCase().includes(term)
-                ) ||
-
-                student.journey.drivingQuestions.some(item =>
-                    item.toLowerCase().includes(term)
-                ) ||
-
-                student.support.communityPartners.some(item =>
-                    item.toLowerCase().includes(term)
-                ) ||
-
-                student.support.internships.some(item =>
-                    item.toLowerCase().includes(term)
-                )
-
+            document.dispatchEvent(
+                new CustomEvent("openAddStudent")
             );
 
-        }).map(clone);
+        });
+
+        //--------------------------------------------------
+        // Automatic Refresh
+        //--------------------------------------------------
+
+        document.addEventListener("studentDataChanged", () => {
+
+            refresh();
+
+        });
 
     }
 
-    /* ======================================================
-       Collection Management
-    ====================================================== */
+    //======================================================
+    // Refresh
+    //======================================================
 
-    function replaceAll(data = []) {
+    function refresh() {
 
-        students = clone(data);
+        updateCount();
 
-        notifyChange();
+        render();
+
+        if (typeof Dashboard !== "undefined" &&
+            typeof Dashboard.refresh === "function") {
+
+            Dashboard.refresh();
+
+        }
 
     }
 
-    function clearAll() {
+    //======================================================
+    // Render
+    //======================================================
 
-        students = [];
+    function render() {
 
-        notifyChange();
+        cardContainer.innerHTML = "";
+
+        let students = [];
+
+        if (currentSearch.length > 0 &&
+            typeof StudentManager.searchStudents === "function") {
+
+            students = StudentManager.searchStudents(currentSearch);
+
+        } else {
+
+            students = StudentManager.getStudents();
+
+        }
+
+        updateCount();
+
+        if (!students || students.length === 0) {
+
+            renderEmptyState();
+
+            return;
+
+        }
+
+        students.forEach(student => {
+
+            cardContainer.appendChild(
+                renderStudentCard(student)
+            );
+
+        });
 
     }
 
-    function count() {
-        return students.length;
+    //======================================================
+    // Student Count
+    //======================================================
+
+    function updateCount() {
+
+        const total = StudentManager.getStudents().length;
+
+        countLabel.textContent =
+            `${total} Student${total === 1 ? "" : "s"}`;
+
     }
 
-    /* ======================================================
-       Events
-    ====================================================== */
+    //======================================================
+    // Student Card
+    //======================================================
 
-    function notifyChange() {
+    function renderStudentCard(student) {
 
-        window.dispatchEvent(
-            new CustomEvent("studentDataChanged", {
-                detail: getStudents()
-            })
+        const card = document.createElement("div");
+        card.className = "student-card";
+
+        //--------------------------------------------------
+        // Name
+        //--------------------------------------------------
+
+        const preferred = document.createElement("h3");
+        preferred.textContent =
+            student.preferredName ||
+            student.firstName ||
+            "Unnamed Student";
+
+        card.appendChild(preferred);
+
+        //--------------------------------------------------
+        // Full Name
+        //--------------------------------------------------
+
+        const fullName = document.createElement("div");
+        fullName.className = "student-field";
+
+        fullName.textContent =
+            `${student.firstName || ""} ${student.lastName || ""}`.trim();
+
+        card.appendChild(fullName);
+
+        //--------------------------------------------------
+        // Helper
+        //--------------------------------------------------
+
+        function addField(label, value) {
+
+            const div = document.createElement("div");
+            div.className = "student-field";
+
+            div.textContent = `${label}: ${value}`;
+
+            card.appendChild(div);
+
+        }
+
+        //--------------------------------------------------
+        // Standard Fields
+        //--------------------------------------------------
+
+        addField("Grade", student.grade || "-");
+        addField("Advisor", student.advisor || "-");
+        addField("Mood", student.mood || "-");
+
+        //--------------------------------------------------
+        // Interests
+        //--------------------------------------------------
+
+        let interests = [];
+
+        if (Array.isArray(student.interests)) {
+
+            interests = student.interests
+                .slice(0, 3);
+
+        }
+
+        addField(
+            "Interests",
+            interests.length > 0
+                ? interests.join(", ")
+                : "-"
         );
 
+        //--------------------------------------------------
+        // Projects
+        //--------------------------------------------------
+
+        const projects =
+            Array.isArray(student.projects)
+                ? student.projects.length
+                : 0;
+
+        addField(
+            "Current Projects",
+            projects
+        );
+
+        //--------------------------------------------------
+        // Follow Ups
+        //--------------------------------------------------
+
+        const followUps =
+            Array.isArray(student.followUps)
+                ? student.followUps.length
+                : 0;
+
+        addField(
+            "Follow-Ups",
+            followUps
+        );
+
+        //--------------------------------------------------
+        // Updated
+        //--------------------------------------------------
+
+        addField(
+            "Last Updated",
+            student.updatedAt ||
+            student.lastUpdated ||
+            "-"
+        );
+
+        //--------------------------------------------------
+        // Buttons
+        //--------------------------------------------------
+
+        const buttonBar = document.createElement("div");
+        buttonBar.className = "student-card-buttons";
+
+        buttonBar.appendChild(createViewButton(student.id));
+        buttonBar.appendChild(createEditButton(student.id));
+        buttonBar.appendChild(createDeleteButton(student.id));
+        buttonBar.appendChild(createSearchButton(student));
+
+        card.appendChild(buttonBar);
+
+        return card;
+
     }
 
-    /* ======================================================
-       Public API
-    ====================================================== */
+    //======================================================
+    // Buttons
+    //======================================================
+
+    function createButton(text, handler) {
+
+        const button = document.createElement("button");
+
+        button.type = "button";
+        button.textContent = text;
+
+        button.addEventListener("click", handler);
+
+        return button;
+
+    }
+
+    function createViewButton(id) {
+
+        return createButton("View", () => {
+
+            document.dispatchEvent(
+                new CustomEvent("viewStudent", {
+                    detail: { id }
+                })
+            );
+
+        });
+
+    }
+
+    function createEditButton(id) {
+
+        return createButton("Edit", () => {
+
+            document.dispatchEvent(
+                new CustomEvent("editStudent", {
+                    detail: { id }
+                })
+            );
+
+        });
+
+    }
+
+    function createDeleteButton(id) {
+
+        return createButton("Delete", () => {
+
+            const confirmed = window.confirm(
+                "Delete this student?"
+            );
+
+            if (!confirmed) return;
+
+            StudentManager.deleteStudent(id);
+
+        });
+
+    }
+
+    function createSearchButton(student) {
+
+        return createButton("Search", () => {
+
+            const query =
+                student.preferredName ||
+                student.firstName ||
+                "";
+
+            searchInput.value = query;
+
+            currentSearch = query;
+
+            render();
+
+        });
+
+    }
+
+    //======================================================
+    // Empty State
+    //======================================================
+
+    function renderEmptyState() {
+
+        const empty = document.createElement("div");
+
+        empty.className = "student-empty-state";
+
+        const title = document.createElement("h3");
+        title.textContent = "No students yet.";
+
+        const message = document.createElement("p");
+        message.textContent =
+            'Click "New Student" to add your first student.';
+
+        empty.appendChild(title);
+        empty.appendChild(message);
+
+        cardContainer.appendChild(empty);
+
+    }
+
+    //======================================================
+    // Public API
+    //======================================================
 
     return {
 
-        addStudent,
-        editStudent,
-        deleteStudent,
-
-        getStudent,
-        getStudents,
-        searchStudents,
-
-        replaceAll,
-        clearAll,
-        count,
-
-        validate
+        initialize,
+        render,
+        refresh,
+        renderStudentCard,
+        renderEmptyState
 
     };
 
 })();
-
-window.StudentManager = StudentManager;
