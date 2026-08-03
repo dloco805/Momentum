@@ -1,8 +1,0 @@
-Momentum v19.0.1
-
-Startup Repair
-
-- Fixed a startup crash caused by the removed Advisor filter.
-- Removed the obsolete populateAdvisors function and remaining references.
-- Navigation and interactive controls can initialize normally again.
-- Existing saved data remains compatible.
