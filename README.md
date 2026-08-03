@@ -44,6 +44,6 @@ Instead of focusing on grades, Momentum documents student growth through:
 
 ---
 
-Created by **Daniel Lockman**
+Created by **Daniel**
 
 Designed with ChatGPT
