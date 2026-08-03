@@ -1,0 +1,37 @@
+Momentum v21.0.0
+
+Community Directory + Experiences
+
+Community Directory:
+- Added 38 more Lompoc-area businesses, nonprofits,
+  agencies, education programs, and community organizations.
+- Directory now contains well over 90 starter places.
+- Grouped first by type/category, then alphabetically.
+- Replaced large cards with compact expandable rows.
+- Search and filters remain.
+- Map is no longer always visible.
+- Show on Map opens a large map modal with directions from Maple High School.
+- Maple High School is permanently identified with a star and address:
+  4010 Jupiter Ave, Lompoc, CA 93436.
+- Added direct directions and website buttons.
+
+Student Connections:
+- Community Connections now appears on My Momentum.
+- Goals remain.
+- Added a Next Steps card.
+- Connections display the organization and relationship type.
+- Missing connections appear red and provide Add Connection.
+- Partner assignment student lists are alphabetical.
+- Relationship types reduced to:
+  Career Interest, Current Internship, Project Connection,
+  Visit / L2L, and Potential Partner.
+
+Experiences:
+- Opportunities tab renamed Experiences.
+- Removed redundant Lompoc business-research cards.
+- Businesses remain in Community Directory.
+- Added useful local experience ideas organized by type:
+  Volunteer, Leadership, Career Program, College, Career Exploration,
+  Employment, Entrepreneurship, and Service Project.
+- Added local links for LVMC teen volunteering, City parks volunteering,
+  FUTURE for Lompoc Youth, Allan Hancock, Maple, and more.
