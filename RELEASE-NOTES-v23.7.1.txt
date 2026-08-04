@@ -1,0 +1,10 @@
+Momentum v23.7.1 — Community Map Cleanup
+
+Changes
+- Removed the experimental standalone community-map folder from the build.
+- Removed the Open Community Map button from the Community page.
+- Preserved the v23.7.0 community directory, Google My Maps export, regional trade-school additions, category cleanup, Allan Hancock consolidation, Veggie Rescue listing, and student assignment repairs.
+- The built-in Community map remains removed.
+
+GitHub cleanup note
+Uploading this build does not automatically delete files already stored in GitHub. Delete the existing community-map folder from the repository separately, then upload/replace index.html and the remaining v23.7.1 files.
