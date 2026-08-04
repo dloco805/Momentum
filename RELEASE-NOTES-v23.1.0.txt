@@ -1,0 +1,17 @@
+Momentum v23.1.0
+
+COMMUNITY DATA REFRESH
+
+- Removed redundant generic opportunity cards that all pointed to the Lompoc Chamber homepage.
+- Added distinct official links for local volunteer programs and inquiry leads.
+- Added 13 curated volunteer and internship opportunities, including animal care, food access, healthcare, youth, history, parks, public safety, and community events.
+- Added 20 additional local businesses and organizations to the Community Directory.
+- Starter partners and opportunities now merge automatically by stable ID. Existing user-created records and edits are preserved.
+- Removed the visible Load Partners / Load Starter Leads buttons. Public load methods remain for backward compatibility.
+- New starter data is added once per library version and is not duplicated.
+
+DATA SAFETY
+
+- Auto-merge adds only missing starter IDs or organization names.
+- Existing partner and opportunity records are not overwritten.
+- Obsolete generic starter cards are removed by their system IDs only.

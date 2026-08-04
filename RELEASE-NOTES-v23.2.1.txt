@@ -1,0 +1,28 @@
+Momentum v23.2.1
+
+Focused cleanup build
+
+College Pathways
+- Rebuilt the Allan Hancock program catalog around current official program-page links.
+- Sciences & Technologies now includes only programs with their own direct program pages.
+- Fixed Elementary Teacher Education and other outdated program paths.
+- Removed generic program-link fallbacks.
+- Removed the “Color-coded program exploration” label.
+
+Community
+- Removed the redundant three-card overview above the Community tabs.
+- Repaired starter opportunity links to their matching Directory organizations.
+
+Check-Ins
+- The latest check-in remains on the main card.
+- View History now shows only earlier check-ins, so the latest record is not duplicated.
+- View History is hidden when there are no earlier records.
+
+Circles
+- Increased space between Circle records.
+- Added four distinct purple-family card treatments, date panels, record labels, and subtle patterns.
+- Purple remains the Circle meaning while individual records are easier to scan.
+
+Dashboard
+- This Week planner items now open the exact Calendar event in its edit panel.
+- Today planner items use the same direct-open behavior.

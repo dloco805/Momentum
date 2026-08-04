@@ -1,0 +1,21 @@
+Momentum v23.7.0 — Standalone Community Map
+
+NEW
+- Added a separate GitHub Pages-ready community-map webpage.
+- Added search, category filtering, map-status filtering, marker popups, organization websites, and Google Maps directions.
+- Added an Open Community Map button to the Momentum Community heading.
+- Added coordinate import/export tools for moving mapping work between browsers.
+
+LOCATION SAFETY
+- The test map never invents marker coordinates.
+- Address lookup starts only after the user chooses Locate visible places.
+- Public Nominatim requests run one at a time, at no more than one request per second, and successful results are cached locally.
+- Generic area-only listings are rejected when the returned result does not resemble the named organization.
+
+DEPLOYMENT
+- Upload the complete build to the existing public GitHub repository.
+- Open /community-map/ through GitHub Pages.
+- After testing, export the saved coordinates so they can be frozen into a later public map build.
+
+DIRECTORY
+- Uses the 248-record v23.6.0 community directory, including the cleaned Markets/Food & Drink categories, Veggie Rescue, and regional trade/technical schools.

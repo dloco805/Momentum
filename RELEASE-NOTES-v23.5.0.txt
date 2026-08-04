@@ -1,0 +1,34 @@
+Momentum v23.5.0
+Released: August 3, 2026
+
+REGIONAL TRADE & TECHNICAL SCHOOLS
+- Added eight verified Santa Barbara County and Central Coast career-training providers.
+- Added Santa Barbara City College Career Education, Center for Employment Training — Santa Maria,
+  Cuesta College Skilled Trades & Technology, Laurus College — Santa Maria, San Luis Obispo Adult
+  School culinary training, Santa Barbara County Education Office CTE, Santa Maria Joint Union High
+  School District CTE, and Ventura College Career Education.
+- Upgraded the existing Lompoc Adult School record to Lompoc Adult School and Career Center with
+  healthcare, nursing assistant, skilled-trades, diploma, equivalency, and certification pathways.
+- Expanded College Pathways beyond Allan Hancock College with a regional provider browser linked
+  directly to each organization in the Community Directory.
+- Existing installations receive the new providers automatically without deleting educator-created data.
+
+COMMUNITY MAP REMOVAL
+- Removed the built-in Community map tab and its unused map module.
+- Replaced embedded organization maps with direct Google Maps links, keeping location lookup useful
+  without loading a separate in-app map workspace.
+
+CATEGORY CLEANUP
+- Added one shared Agriculture & Environment category and moved related farms, producers,
+  agricultural suppliers, vineyards, and 4-H into that category.
+- Moved South Side Coffee Co., Lompoc Empty Bowls, American Host Restaurant & Catering,
+  and Toro Loco into Food & Drink.
+- Small categories now display as one clean organization list instead of creating a separate expandable
+  separator for every industry or subcategory.
+- Nested separators now appear only when a large category has multiple substantial groups that
+  meaningfully improve navigation.
+- Existing starter records receive the corrected classifications automatically while custom records remain intact.
+
+PRESERVED FROM v23.4.0
+- Verified organization-to-student and opportunity-to-student assignments remain enabled.
+- Immediate local-storage saving and assignment validation remain intact.

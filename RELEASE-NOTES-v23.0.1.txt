@@ -1,0 +1,16 @@
+Momentum v23.0.1
+
+Allan Hancock Creative Arts Link Repair
+
+FIXED PROGRAM LINKS
+- Film and Video Production now opens the current Hancock Film program page.
+- Graphic Design now opens the current Hancock Graphic Design program page.
+- Dance now opens the current Hancock Dance program page.
+- Commercial Dance now opens its dedicated Commercial Dance program page.
+- Art, Studio Arts, and Ceramics now open the current Hancock Art program page.
+
+NOTES
+- Hancock lists Studio Arts and Ceramics as credentials within the Art program, so those
+  Momentum entries intentionally share the official Art program page.
+- No student, organization, opportunity, connection, or Next Step data structures changed.
+- This is a link-only maintenance release based on Momentum v23.0.0.

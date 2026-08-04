@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Momentum student journey and next step management">
+    <title>Momentum</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <a class="skip-link" href="#mainContent">Skip to content</a>
+
+    <div class="app-shell">
+        <aside class="sidebar" aria-label="Primary navigation">
+            <div class="brand">
+                <div class="brand-mark" aria-hidden="true">M</div>
+                <div>
+                    <h1>Momentum</h1>
+                    <p>Student journey workspace</p>
+                </div>
+            </div>
+
+            <div class="sidebar-tools">
+                <div class="universal-search-shell">
+                    <label class="universal-search-field">
+                        <span aria-hidden="true">⌕</span>
+                        <span class="visually-hidden">Search all Momentum records</span>
+                        <input id="universalSearchInput" type="search"
+                            placeholder="Search..."
+                            autocomplete="off">
+                        <kbd>Ctrl K</kbd>
+                    </label>
+                    <div id="universalSearchResults"
+                        class="universal-search-results"
+                        hidden></div>
+                </div>
+
+                <button class="sidebar-quick-add" type="button"
+                    data-action="open-quick-add">
+                    <span aria-hidden="true">+</span>
+                    Add
+                </button>
+            </div>
+
+            <nav class="nav-list simplified-nav" aria-label="Primary navigation">
+                <button class="nav-item is-active" type="button" data-view="dashboard">
+                    <span aria-hidden="true">▦</span>
+                    Dashboard
+                </button>
+
+                <button class="nav-item" type="button" data-view="students">
+                    <span aria-hidden="true">◎</span>
+                    Students
+                </button>
+
+                <button class="nav-item" type="button" data-view="checkins">
+                    <span aria-hidden="true">◷</span>
+                    Check-Ins
+                </button>
+
+                <button class="nav-item" type="button" data-view="insights">
+                    <span aria-hidden="true">◎</span>
+                    Insights
+                </button>
+
+                <button class="nav-item" type="button" data-view="circles">
+                    <span aria-hidden="true">◯</span>
+                    Circles
+                </button>
+                <button class="nav-item" type="button" data-view="calendar">
+                    <span aria-hidden="true">□</span>
+                    Calendar
+                </button>
+                <button class="nav-item" type="button" data-view="activities">
+                    <span aria-hidden="true">✦</span>
+                    Activity Notepad
+                </button>
+
+
+
+                <button class="nav-item" type="button" data-view="questionlab">
+                    <span aria-hidden="true">?</span>
+                    Question Lab
+                </button>
+
+                <button class="nav-item" type="button" data-view="community">
+                    <span aria-hidden="true">◇</span>
+                    Community
+                </button>
+
+                <button class="nav-item" type="button" data-view="reports">
+                    <span aria-hidden="true">▤</span>
+                    Reports
+                </button>
+
+                <div class="nav-divider" aria-hidden="true"></div>
+
+                <button class="nav-item" type="button" data-view="settings">
+                    <span aria-hidden="true">⚙</span>
+                    Settings
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="sidebar-action" type="button" data-action="export-data">Export backup</button>
+                <button class="sidebar-action" type="button" data-action="import-data">Import backup</button>
+                <input id="importFileInput" class="visually-hidden" type="file" accept=".json,application/json">
+                <p id="storageStatus" class="storage-status">Local storage ready</p>
+                <p class="version">Momentum v23.6.0</p>
+            </div>
+        </aside>
+
+        <div class="workspace">
+            <header class="mobile-toolbar">
+                <button id="mobileMenuButton" class="icon-button mobile-menu-button"
+                    type="button" aria-label="Open navigation"
+                    aria-expanded="false">☰</button>
+                <strong>Momentum</strong>
+                <button class="mobile-add-button" type="button"
+                    data-action="open-quick-add" aria-label="Add">+</button>
+            </header>
+
+            <main id="mainContent" class="main-content" tabindex="-1">
+                <section id="dashboardView" class="app-view" aria-labelledby="dashboardHeading">
+                    <h2 id="dashboardHeading" class="visually-hidden">Dashboard</h2>
+                    <div id="dashboardContent"></div>
+                </section>
+
+                <section id="studentsView" class="app-view"
+                    aria-labelledby="studentsHeading" hidden>
+                    <h2 id="studentsHeading" class="visually-hidden">Students</h2>
+
+                    <div class="caseload-toolbar students-unified-toolbar">
+                        <label class="search-field">
+                            <span class="visually-hidden">Search students</span>
+                            <span aria-hidden="true">⌕</span>
+                            <input id="caseloadSearchInput" type="search"
+                                placeholder="Search students, projects, internships, or goals"
+                                autocomplete="off">
+                        </label>
+
+                        <label class="filter-field">
+                            <span class="visually-hidden">Filter students by support need</span>
+                            <select id="caseloadNeedFilter">
+                                <option value="">All students</option>
+                                <option value="meeting">Due for meeting</option>
+                                <option value="project">Needs project</option>
+                                <option value="internship">Needs internship</option>
+                                <option value="followup">Has overdue action item</option>
+                                <option value="unscheduled">No next meeting scheduled</option>
+                            </select>
+                        </label>
+
+                        <label class="filter-field">
+                            <span class="visually-hidden">Sort students</span>
+                            <select id="caseloadSortSelect">
+                                <option value="attention">Highest attention first</option>
+                                <option value="name">Student name</option>
+                                <option value="meeting">Meeting status</option>
+                                <option value="updated">Recently updated</option>
+                            </select>
+                        </label>
+
+                        <button class="button button-primary" type="button"
+                            data-action="open-add-student">
+                            + New Student
+                        </button>
+                    </div>
+
+                    <div id="caseloadSummary" class="students-simple-summary"></div>
+                    <div id="caseloadContent"></div>
+                </section>
+
+                <section id="insightsView" class="app-view"
+                    aria-labelledby="insightsHeading" hidden>
+                    <h2 id="insightsHeading" class="visually-hidden">
+                        Educator Relationship Intelligence
+                    </h2>
+                    <div id="relationshipInsightsContent"></div>
+                </section>
+
+                <section id="calendarView" class="app-view" aria-labelledby="calendarHeading" hidden>
+                    <h2 id="calendarHeading" class="visually-hidden">Calendar</h2>
+                    <div id="calendarContent"></div>
+                </section>
+
+                <section id="activitiesView" class="app-view"
+                    aria-labelledby="activitiesHeading" hidden>
+                    <h2 id="activitiesHeading" class="visually-hidden">Activity Notepad</h2>
+                    <div id="activityBankContent"></div>
+                </section>
+
+                <section id="questionLabView" class="app-view"
+                    aria-labelledby="questionLabHeading" hidden>
+                    <h2 id="questionLabHeading" class="visually-hidden">
+                        Question Lab
+                    </h2>
+                    <div id="questionLabContent"></div>
+                </section>
+
+                <section id="circlesView" class="app-view"
+                    aria-labelledby="circlesHeading" hidden>
+                    <div class="circles-heading">
+                        <div>
+                            <p class="eyebrow">Whole-class reflection</p>
+                            <h2 id="circlesHeading">Circles</h2>
+                            <p>
+                                Keep a dated record of circle topics, guiding questions,
+                                student themes, questions raised, and ideas to revisit.
+                            </p>
+                        </div>
+                        <button class="button button-primary" type="button"
+                            data-action="new-circle">
+                            + Record Circle
+                        </button>
+                    </div>
+
+                    <label class="search-field circles-search">
+                        <span aria-hidden="true">⌕</span>
+                        <span class="visually-hidden">Search circles</span>
+                        <input id="circleSearchInput" type="search"
+                            placeholder="Search topics, questions, themes, or class groups">
+                    </label>
+
+                    <div id="circlesContent"></div>
+                </section>
+
+                <section id="communityView" class="app-view" aria-labelledby="communityHeading" hidden>
+                    <div class="community-heading community-v23-heading">
+                        <div>
+                            <p class="eyebrow">People, places, pathways, and action</p>
+                            <h2 id="communityHeading">Community</h2>
+                            <p>
+                                Find local organizations, connect students to real people,
+                                track volunteer and internship leads, and explore college pathways.
+                            </p>
+                        </div>
+
+                        <div class="community-heading-actions">
+                            <a class="button button-secondary" href="community-map/" target="_blank" rel="noopener">
+                                Open Community Map
+                            </a>
+                            <button class="button button-secondary" type="button"
+                                data-action="open-import-center">
+                                Import
+                            </button>
+                            <button class="button button-secondary" type="button"
+                                data-action="new-partner">
+                                + Organization
+                            </button>
+                            <button class="button button-primary" type="button"
+                                data-action="new-opportunity">
+                                + Opportunity
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="community-tabs community-v23-tabs" role="tablist" aria-label="Community sections">
+                        <button class="community-tab is-active" type="button" role="tab"
+                            aria-selected="true" aria-controls="communityPartnersPanel"
+                            data-action="switch-community-tab"
+                            data-community-tab="partners">
+                            Directory
+                        </button>
+                        <button class="community-tab" type="button" role="tab"
+                            aria-selected="false" aria-controls="communityOpportunitiesPanel"
+                            data-action="switch-community-tab"
+                            data-community-tab="opportunities">
+                            Volunteer & Internships
+                        </button>
+                        <button class="community-tab" type="button" role="tab"
+                            aria-selected="false" aria-controls="communityCollegePanel"
+                            data-action="switch-community-tab"
+                            data-community-tab="college">
+                            College Pathways
+                        </button>
+                    </div>
+
+                    <section id="communityPartnersPanel"
+                        class="community-panel"
+                        data-community-panel="partners"
+                        role="tabpanel">
+                        <div class="business-directory-heading community-section-intro">
+                            <div>
+                                <p class="eyebrow">Who they are</p>
+                                <h3>Lompoc Community Directory</h3>
+                                <p>
+                                    Browse businesses, nonprofits, colleges, public agencies,
+                                    mentors, internship sites, and other local connections.
+                                </p>
+                            </div>
+                            <span class="community-auto-library-note">Local starter organizations are added automatically.</span>
+                        </div>
+
+                        <div id="partnerDirectorySummary" class="community-metric-strip"></div>
+
+                        <div class="partner-toolbar community-toolbar business-directory-toolbar community-directory-toolbar">
+                            <label class="search-field">
+                                <span class="visually-hidden">Search community directory</span>
+                                <span aria-hidden="true">⌕</span>
+                                <input id="partnerSearchInput" type="search"
+                                    placeholder="Search Community..."
+                                    autocomplete="off">
+                            </label>
+
+                            <label class="filter-field">
+                                <span class="visually-hidden">Filter by category</span>
+                                <select id="partnerIndustryFilter">
+                                    <option value="">All categories</option>
+                                </select>
+                            </label>
+
+                            <label class="filter-field">
+                                <span class="visually-hidden">Filter by location</span>
+                                <select id="partnerLocationFilter">
+                                    <option value="">All locations</option>
+                                    <option value="Central Ave">Central Avenue</option>
+                                    <option value="H St">H Street</option>
+                                    <option value="Ocean Ave">Ocean Avenue</option>
+                                    <option value="Old Town">Old Town / Downtown</option>
+                                    <option value="Lompoc">All Lompoc</option>
+                                </select>
+                            </label>
+
+                            <label class="filter-field">
+                                <span class="visually-hidden">Filter by status</span>
+                                <select id="partnerStatusFilter">
+                                    <option value="active">Active</option>
+                                    <option value="archived">Archived</option>
+                                    <option value="all">All</option>
+                                </select>
+                            </label>
+
+                            <select id="partnerTypeFilter" hidden>
+                                <option value="">All</option>
+                            </select>
+                        </div>
+
+                        <div class="opportunity-summary">
+                            <p id="partnerCountText">0 organizations</p>
+                            <button class="button button-secondary button-small" type="button"
+                                data-action="clear-business-directory-filters">
+                                Clear Filters
+                            </button>
+                        </div>
+
+                        <div id="partnerBrowser" aria-live="polite"></div>
+                    </section>
+
+                    <section id="communityOpportunitiesPanel"
+                        class="community-panel"
+                        data-community-panel="opportunities"
+                        role="tabpanel"
+                        hidden>
+                        <div class="community-section-intro opportunity-section-intro">
+                            <div>
+                                <p class="eyebrow">What students can do there</p>
+                                <h3>Volunteer & Internship Opportunities</h3>
+                                <p>
+                                    Track specific volunteer roles, internships, job shadows,
+                                    mentorships, career visits, workshops, and employment leads.
+                                </p>
+                            </div>
+                            <span class="community-auto-library-note">Curated local leads are added automatically.</span>
+                        </div>
+
+                        <div id="opportunityTypeSummary" class="community-metric-strip"></div>
+
+                        <div class="opportunity-toolbar community-toolbar community-opportunity-toolbar">
+                            <label class="search-field">
+                                <span class="visually-hidden">Search volunteer and internship opportunities</span>
+                                <span aria-hidden="true">⌕</span>
+                                <input id="opportunitySearchInput" type="search"
+                                    placeholder="Search volunteer, internship, organization, skill..."
+                                    autocomplete="off">
+                            </label>
+
+                            <label class="filter-field">
+                                <span class="visually-hidden">Filter opportunities by type</span>
+                                <select id="opportunityTypeFilter">
+                                    <option value="">All types</option>
+                                </select>
+                            </label>
+
+                            <label class="filter-field">
+                                <span class="visually-hidden">Sort opportunities</span>
+                                <select id="opportunitySortSelect">
+                                    <option value="type">Type</option>
+                                    <option value="name">Name A–Z</option>
+                                    <option value="organization">Organization A–Z</option>
+                                    <option value="deadline">Deadline first</option>
+                                    <option value="relevance">Recently added</option>
+                                </select>
+                            </label>
+
+                            <label class="filter-field">
+                                <span class="visually-hidden">Filter opportunities by status</span>
+                                <select id="opportunityStatusFilter">
+                                    <option value="active">Active</option>
+                                    <option value="archived">Archived</option>
+                                    <option value="all">All</option>
+                                </select>
+                            </label>
+                        </div>
+
+                        <div id="opportunityQuickFilters"
+                            class="opportunity-quick-filters"
+                            aria-label="Quick opportunity filters"></div>
+
+                        <div class="opportunity-summary">
+                            <p id="opportunityCountText">0 opportunities</p>
+                            <button class="button button-secondary button-small" type="button"
+                                data-action="clear-opportunity-filters">
+                                Clear Filters
+                            </button>
+                        </div>
+
+                        <div id="opportunityBrowser" aria-live="polite"></div>
+                    </section>
+
+                    <section id="communityCollegePanel"
+                        class="community-panel"
+                        data-community-panel="college"
+                        role="tabpanel"
+                        hidden>
+                        <div id="communityCollegeContent"></div>
+                    </section>
+                </section>
+
+                <section id="checkinsView" class="app-view" aria-labelledby="checkinsHeading" hidden>
+                    <h2 id="checkinsHeading" class="visually-hidden">Student Check-Ins</h2>
+
+                    <div class="checkin-toolbar">
+                        <label class="search-field">
+                            <span class="visually-hidden">Search students and check-ins</span>
+                            <span aria-hidden="true">⌕</span>
+                            <input id="checkinSearchInput" type="search"
+                                placeholder="Search students or check-in notes"
+                                autocomplete="off">
+                        </label>
+
+                        <label class="filter-field">
+                            <span class="visually-hidden">Filter students by check-in status</span>
+                            <select id="checkinStatusFilter">
+                                <option value="all">All students</option>
+                                <option value="due">Due for check-in</option>
+                                <option value="recent">Recently checked in</option>
+                                <option value="never">Never checked in</option>
+                            </select>
+                        </label>
+
+                        <label class="filter-field">
+                            <span class="visually-hidden">Sort students</span>
+                            <select id="checkinSortSelect">
+                                <option value="name">Name A–Z</option>
+                                <option value="recent-first">Most recent check-in first</option>
+                                <option value="recent-last">Most recent check-in last</option>
+                                <option value="due-first">Due students first</option>
+                                <option value="count">Most check-ins</option>
+                            </select>
+                        </label>
+
+                        <button class="button button-primary" type="button"
+                            data-action="new-checkin">
+                            + New Check-In
+                        </button>
+                    </div>
+
+                    <div id="checkinSummary"></div>
+                    <div id="checkinCenterContent"></div>
+                </section>
+<section id="reportsView" class="app-view" aria-labelledby="reportsHeading" hidden>
+                    <h2 id="reportsHeading" class="visually-hidden">Reports</h2>
+
+                    <div class="report-toolbar print-export-toolbar">
+                        <label class="filter-field report-print-selector">
+                            <span class="visually-hidden">Choose printable report</span>
+                            <select id="reportPrintType">
+                                <option value="overview">Overview Report</option>
+                                <option value="students">Student Progress Report</option>
+                                <option value="meetings">Meeting Activity Report</option>
+                                <option value="followups">Open Next Steps Report</option>
+                            </select>
+                        </label>
+
+                        <button class="button button-secondary" type="button" data-action="export-students-csv">
+                            Export Students CSV
+                        </button>
+
+                        <button class="button button-secondary" type="button" data-action="export-followups-csv">
+                            Export Next Steps CSV
+                        </button>
+
+                        <button class="button button-secondary" type="button"
+                            data-action="open-custom-report-builder">
+                            Custom Report Builder
+                        </button>
+
+                        <button class="button button-primary" type="button" data-action="print-reports">
+                            Print Selected Report
+                        </button>
+                    </div>
+
+                    <div id="reportsContent"></div>
+                </section>
+
+
+                <section id="settingsView" class="app-view" aria-labelledby="settingsHeading" hidden>
+                    <h2 id="settingsHeading" class="visually-hidden">Settings</h2>
+
+                    <div class="settings-grid data-safety-settings">
+                        <section class="settings-card settings-card-wide">
+                            <div class="panel-header">
+                                <div>
+                                    <p class="eyebrow">Data safety</p>
+                                    <h3>Backup Protection</h3>
+                                </div>
+                                <button class="button button-primary" type="button"
+                                    data-action="export-full-backup">
+                                    Export Full Backup
+                                </button>
+                            </div>
+
+                            <div id="backupStatusPanel"></div>
+
+                            <div class="settings-actions">
+                                <button class="button button-secondary" type="button"
+                                    data-action="import-full-backup">
+                                    Import with Preview
+                                </button>
+                                <button class="button button-secondary" type="button"
+                                    data-action="export-portable-copy">
+                                    Export My Data
+                                </button>
+                                <button class="button button-secondary" type="button"
+                                    data-action="create-recovery-snapshot">
+                                    Save Current Version
+                                </button>
+                                <input id="fullBackupInput" class="visually-hidden"
+                                    type="file" accept=".json,application/json">
+                            </div>
+
+                            <div class="backup-reminder-row">
+                                <div>
+                                    <strong>Backup reminder</strong>
+                                    <p>Show a warning when the last full backup is older than this.</p>
+                                </div>
+                                <div class="backup-reminder-control">
+                                    <input id="backupReminderDays" type="number"
+                                        min="1" max="90" value="7">
+                                    <span>days</span>
+                                    <button class="button button-secondary button-small" type="button"
+                                        data-action="save-backup-reminder">Save</button>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="settings-card settings-card-wide">
+                            <div class="panel-header">
+                                <div>
+                                    <p class="eyebrow">Previous versions</p>
+                                    <h3>Previous Versions</h3>
+                                </div>
+                            </div>
+                            <p>
+                                Momentum keeps up to five local previous versions. Risky imports and
+                                restores create one automatically.
+                            </p>
+                            <div id="recoverySnapshotList" class="recovery-list"></div>
+                        </section>
+
+                        <section class="settings-card">
+                            <p class="eyebrow">Data health</p>
+                            <h3>Health Check</h3>
+                            <p>
+                                Scan for broken assignments, invalid meeting dates,
+                                likely duplicate students, and conflicting statuses.
+                            </p>
+                            <button class="button button-primary" type="button"
+                                data-action="run-data-health-check">
+                                Run Data Health Check
+                            </button>
+                        </section>
+
+                        <section class="settings-card">
+                            <p class="eyebrow">Meeting cadence</p>
+                            <h3>Check-in interval</h3>
+                            <p>Choose how many days can pass before a student is due for another meeting.</p>
+                            <div class="form-field">
+                                <label for="checkInIntervalDays">Days between meetings</label>
+                                <input id="checkInIntervalDays" type="number"
+                                    min="1" max="60" value="14">
+                            </div>
+                            <button class="button button-primary" type="button"
+                                data-action="save-settings">
+                                Save Settings
+                            </button>
+                        </section>
+
+                        <section class="settings-card">
+                            <p class="eyebrow">System status</p>
+                            <h3>Local Data</h3>
+                            <div id="settingsDataSummary" class="settings-summary"></div>
+                        </section>
+
+                        <section class="settings-card settings-card-wide">
+                            <p class="eyebrow">Activity</p>
+                            <h3>Backup & Previous versions History</h3>
+                            <div id="backupHistoryList" class="backup-history-list"></div>
+                        </section>
+
+                        <section class="settings-card settings-danger-card">
+                            <p class="eyebrow">Danger zone</p>
+                            <h3>Protected Reset</h3>
+                            <p>
+                                Reset is locked behind a PIN and typed confirmation.
+                                Momentum creates a recovery snapshot before clearing core data.
+                            </p>
+
+                            <div id="resetProtectionStatus"
+                                class="reset-protection-status"></div>
+
+                            <div class="settings-actions">
+                                <button class="button button-secondary" type="button"
+                                    data-action="set-reset-pin">
+                                    Set / Change Reset PIN
+                                </button>
+                                <button class="button button-secondary" type="button"
+                                    data-action="remove-reset-pin">
+                                    Remove PIN
+                                </button>
+                            </div>
+
+                            <button class="button button-danger protected-reset-button"
+                                type="button" data-action="reset-momentum">
+                                Unlock Reset All Data
+                            </button>
+                        </section>
+
+                        <section class="settings-card settings-card-wide demo-class-card">
+                            <div class="panel-header">
+                                <div>
+                                    <p class="eyebrow">Explore safely</p>
+                                    <h3>Demo Class</h3>
+                                </div>
+                                <span id="demoClassStatus" class="badge">Not installed</span>
+                            </div>
+                            <p>
+                                Create 15 fictional students with sample projects, goals,
+                                internships, and check-ins so you can explore Momentum or
+                                share it with a colleague without using real student data.
+                            </p>
+                            <div class="settings-actions">
+                                <button class="button button-primary" type="button"
+                                    data-action="create-demo-class">
+                                    Create Demo Class
+                                </button>
+                                <button class="button button-danger" type="button"
+                                    data-action="clear-demo-class">
+                                    Clear Demo Class
+                                </button>
+                            </div>
+                            <p class="field-help">
+                                Clearing the demo removes only records marked as demo students.
+                            </p>
+                        </section>
+                    </div>
+                </section>
+
+                <section id="studentDetailView" class="app-view" aria-labelledby="studentDetailHeading" hidden>
+                    <div id="studentDetailContent"></div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <input id="opportunityImportFileInput" class="visually-hidden" type="file"
+        accept=".csv,.json,text/csv,application/json">
+    <div id="modalRoot"></div>
+    <div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+    <script src="js/dateUtils.js"></script>
+    <script src="js/printManager.js"></script>
+    <script src="js/moodUtils.js"></script>
+    <script src="js/inquiryCoach.js"></script>
+    <script src="js/studentManager.js"></script>
+    <script src="js/activityManager.js"></script>
+    <script src="js/plannerManager.js"></script>
+    <script src="js/demoClass.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/studentUI.js"></script>
+    <script src="js/caseloadReview.js"></script>
+    <script src="js/relationshipIntelligence.js"></script>
+    <script src="js/growthSuite.js"></script>
+    <script src="js/circleManager.js"></script>
+    <script src="js/circleUI.js"></script>
+    <script src="js/calendarUI.js"></script>
+    <script src="js/activityUI.js"></script>
+    <script src="js/resourceManager.js"></script>
+    <script src="js/resourceUI.js"></script>
+    <script src="js/questionLabUI.js"></script>
+    <script src="js/opportunityManager.js"></script>
+    <script src="js/opportunityUI.js"></script>
+    <script src="js/partnerManager.js"></script>
+    <script src="js/partnerUI.js"></script>
+    <script src="js/communityCollegeUI.js"></script>
+    <script src="js/communityUI.js"></script>
+    <script src="js/importCenter.js"></script>
+    <script src="js/reports.js"></script>
+    <script src="js/followUpCenter.js"></script>
+    <script src="js/checkInCenter.js"></script>
+    <script src="js/meetingWorkspace.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/dataSafety.js"></script>
+    <script src="js/universalTools.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

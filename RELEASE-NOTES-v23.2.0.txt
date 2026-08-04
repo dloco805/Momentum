@@ -1,0 +1,24 @@
+Momentum v23.2.0
+==================
+
+LOCAL PARTNER EXPANSION
+
+- Added 57 new potential local partners to the automatic Community Directory library.
+- Expanded arts and media, construction trades, professional services, healthcare,
+  human services, recreation, aerospace, agriculture, and civic organizations.
+- New starter records are categorized and color-coded automatically in Community.
+- Added richer career fields, services, student-support ideas, addresses, phones,
+  and organization-specific websites where a verified public page was available.
+- Organizations are marked as potential connections; inclusion does not imply an
+  established partnership, internship, volunteer opening, or student availability.
+
+AUTOMATIC UPGRADE
+
+- No Load Partners button is required.
+- Existing v23.1.0 users receive only the 57 missing starter records automatically.
+- Existing edits, custom partners, archives, and student connections are preserved.
+- Reopening the app does not create duplicates.
+
+STARTER DIRECTORY TOTAL
+
+- 164 starter partners after a fresh installation.

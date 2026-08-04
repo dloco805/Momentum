@@ -1,0 +1,13 @@
+Momentum Community Directory — Google My Maps Import
+
+1. Open Google My Maps and create a new map.
+2. In the first layer, choose Import.
+3. Upload Momentum-Community-Google-My-Maps-v23.6.0.csv.
+4. When asked which column positions the markers, select Address.
+5. When asked which column titles the markers, select Name.
+6. To organize/colors: click the layer style button, choose Group places by,
+   then select Category. Google My Maps will create a separate style for each
+   Momentum category.
+
+The CSV includes 248 built-in directory records. It does not include custom
+organizations stored only in a particular browser's local Momentum data.

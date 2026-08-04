@@ -1,0 +1,17 @@
+Momentum v23.3.0
+
+COMMUNITY MAP
+- Added a fourth Community tab: Map.
+- Displays every active organization dynamically from the Partner Directory.
+- Includes Lompoc and Regional views, category colors, search, filtering, marker clustering, and a fixed Maple High School star.
+- Organization details include exact-map and website links, Connect Student, Open Directory, and community-linked Next Step actions.
+- Street-address records use approximate overview placement; city-only and regional records remain visible and are clearly labeled.
+- Online OpenStreetMap background with an offline visual fallback.
+
+CHECK-INS
+- Fixed View History / Hide History so the panel reliably opens and closes.
+- Added accessible expanded-state and panel relationships.
+
+DATA SAFETY
+- No student, partner, opportunity, or college data schema was removed.
+- Existing custom partners automatically appear on the map.

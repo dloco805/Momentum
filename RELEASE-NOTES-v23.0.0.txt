@@ -1,0 +1,40 @@
+Momentum v23.0.0
+
+Community Redesign
+
+COMMUNITY DIRECTORY — WHO THEY ARE
+- Rebuilt the directory as compact, expandable category and subcategory groups.
+- Added a consistent color system across 15 organization categories.
+- Added organization summary counts for linked opportunities and student connections.
+- Added one live Community search plus category, location, and status filters.
+- Expanded organization records with category, subcategory, career fields, and student-support options.
+- Upgraded Connect Student with an alphabetical picker showing project, internship,
+  community-connection, and open Next Step context.
+- Simplified relationship types to Internship, Volunteer, Job Shadow, Mentorship,
+  Career Exploration, Employment, College, and Project Partner.
+- Reworked the map popup to show Maple High School and the selected organization
+  without creating a route or directions.
+
+VOLUNTEER & INTERNSHIPS — WHAT STUDENTS CAN DO THERE
+- Reframed Opportunities as specific volunteer, internship, job-shadow, mentorship,
+  career-visit, workshop, employment, and career-exploration leads.
+- Added color-coded opportunity types, summary metrics, quick filters, compact groups,
+  and expandable detail rows.
+- Added practical fields for age requirements, schedule, commitment, transportation,
+  compensation, capacity, contact information, verification status, and action steps.
+- Opportunities can be linked to one organization and opened from either workspace.
+- Added 12 Lompoc community inquiry leads. These are clearly marked for verification
+  and do not claim that a current placement or opening is guaranteed.
+- Preserved student matching and assignment workflows.
+
+COLLEGE PATHWAYS
+- Rebuilt Allan Hancock College exploration into nine color-coded pathway groups.
+- Added pathway metrics, live search, expandable program lists, and direct program links.
+- Added Connect Student so a program can be saved as a postsecondary goal.
+- Added an optional College Next Step during program connection.
+
+DATA & COMPATIBILITY
+- Existing organization, opportunity, student-connection, and Next Step data remain compatible.
+- The combined starter-data action loads both the organization directory and opportunity leads.
+- No internet connection is required for Momentum data storage; external maps and program
+  websites require internet access when opened.

@@ -1,0 +1,29 @@
+Momentum v23.6.0
+Released: 2026-08-03
+
+COMMUNITY DIRECTORY CLEANUP
+- Consolidated food-related navigation into two clear top-level sections:
+  Food & Drink and Markets.
+- Markets now includes Grocery Outlet, Vons, Albertsons, Foods Co, Village
+  Market, Sunshine Market & Gas, and the three local carnicerias.
+- Food & Drink stays flat instead of creating separate café, restaurant,
+  bakery, and catering separators.
+- Added Veggie Rescue in Santa Ynez as a nonprofit volunteer and food-rescue
+  organization with service-learning and food-systems connections.
+
+COLLEGE PATHWAYS
+- Removed the redundant Allan Hancock College Career Education directory card.
+- Merged its career-training information into Allan Hancock College — Lompoc
+  Valley Center.
+- Existing references to the legacy LOM-CTE id redirect to the merged record.
+- The detailed Allan Hancock College Pathways explorer now appears first.
+- Beyond One College now appears below it with other regional schools only.
+
+DATA SAFETY
+- Starter-library migration updates existing v23.5 installations without
+  overwriting educator-created organizations.
+- Fixed an existing duplicate insertion bug when creating a custom partner.
+
+GOOGLE MY MAPS
+- Companion CSV export includes the built-in community directory, addresses,
+  categories, descriptions, and websites for one-file map import.

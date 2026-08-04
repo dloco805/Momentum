@@ -1,0 +1,29 @@
+Momentum v23.4.0
+Released: August 3, 2026
+
+COMMUNITY DIRECTORY EXPANSION
+- Expanded the built-in Lompoc community directory from 164 to 240 unique records.
+- Added 76 new local businesses and organizations.
+- Major additions include local restaurants, cafés, carnicerias, retailers, thrift shops,
+  automotive services, veterinary care, hotels, visitor services, wineries, youth groups,
+  health resources, workforce support, and community organizations.
+- Avoided duplicate organization names and did not add repeated City Council or chamber
+  directory listings as substitutes for actual local places.
+- Updated selected existing records with direct official/local websites and improved addresses.
+- Increased the community starter-library version so existing Momentum installations receive
+  the new records automatically without erasing saved organizations or educator-created data.
+
+STUDENT COMMUNITY ASSIGNMENTS
+- Fixed organization-to-student connections so the interface validates the student and
+  organization before saving.
+- Fixed opportunity-to-student assignments with the same verified-save workflow.
+- Added immediate local-storage saving after a verified assignment.
+- Added protection against duplicate clicks while an assignment is being saved.
+- Success messages now appear only after the assignment is confirmed in the student record.
+- Failed assignments remain open and show a clear error instead of falsely reporting success.
+- Added a communityAssignmentChanged event for future dashboard and profile integrations.
+
+DATA SAFETY
+- Existing student records, organizations, opportunities, and educator-created community data
+  remain intact.
+- New starter records are merged by stable ID and organization name.
